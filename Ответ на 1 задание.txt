@@ -1,0 +1,98 @@
+Вариант 2
+Создание таблиц
+CREATE TABLE Products
+(
+    ID SERIAL PRIMARY KEY,
+    Name CHARACTER VARYING(50),
+    Price real
+);
+
+CREATE TABLE Sales
+(
+    ID SERIAL PRIMARY KEY,
+	IDSel SERIAL,
+    IDProd SERIAL,
+	Date Date,
+	Quantity real,
+	FOREIGN KEY (IDProd) REFERENCES Products(ID) ON DELETE CASCADE
+);
+
+CREATE TABLE Sellers
+(
+    ID INT PRIMARY KEY REFERENCES Sales(IDSel),
+    Surname CHARACTER VARYING(50),
+    Name CHARACTER VARYING(50)
+);
+
+CREATE TABLE Arrivals
+(
+	ID SERIAL,
+	IDProd SERIAL,
+	Date Date,
+	Quantity real,
+	FOREIGN KEY (IDProd) REFERENCES Products(ID)
+)
+
+INSERT INTO Sellers VALUES (1, 'Иванов','Иван');
+INSERT INTO Sellers VALUES (2, 'Петров','Иван');
+INSERT INTO Sellers VALUES (3, 'Иванов','Петр');
+INSERT INTO Sellers VALUES (4, 'Сидоров','Андрей');
+INSERT INTO Sellers VALUES (5, 'Петров','Петр');
+
+INSERT INTO Products VALUES (1, 'Samsung Galaxy A3',15000);
+INSERT INTO Products VALUES (2, 'Iphone 15',80000);
+INSERT INTO Products VALUES (3, 'Oppo 5',33900);
+INSERT INTO Products VALUES (4, 'Xiaomi Mi A2',20000);
+INSERT INTO Products VALUES (5, 'пылесос',20000);
+INSERT INTO Products VALUES (6, 'ноутбук',60000);
+INSERT INTO Products VALUES (7, 'компьютер',100000);
+INSERT INTO Products VALUES (8, 'настольная лампа',10000);
+INSERT INTO Products VALUES (9, 'компьютерный стол',70000);
+INSERT INTO Products VALUES (10, 'офисный монитор',15000);
+INSERT INTO Products VALUES (11, 'игровой монитор',30000);
+INSERT INTO Products VALUES (12, 'микрофон',4000);
+INSERT INTO Products VALUES (13, 'компьютерный коврик',1500);
+INSERT INTO Products VALUES (14, 'подставка под микрофон',1300);
+INSERT INTO Products VALUES (15, 'led подсветка',5370);
+
+INSERT INTO Sales VALUES (1,1,1, "20.04.2013", 1);
+INSERT INTO Sales VALUES (2,2,6, "20.07.2013", 2);
+INSERT INTO Sales VALUES (3,1,7, "21.09.2013", 4);
+INSERT INTO Sales VALUES (4,3,1, "20.09.2013", 1);
+INSERT INTO Sales VALUES (5,1,8, "01.10.2013", 5);
+INSERT INTO Sales VALUES (6,5,1, "08.10.2013", 3);
+INSERT INTO Sales VALUES (7,4,2, "12.10.2013", 2);
+INSERT INTO Sales VALUES (8,2,15, "25.10.2013", 3);
+INSERT INTO Sales VALUES (9,3,12, "6.10.2013", 2);
+INSERT INTO Sales VALUES (10,4,13, "8.10.2013", 7);
+
+INSERT INTO Arrivals VALUES (1, 1, "02.09.2013", 10);
+INSERT INTO Arrivals VALUES (2, 2, "04.09.2013", 5);
+INSERT INTO Arrivals VALUES (3, 3, "05.09.2013", 7);
+INSERT INTO Arrivals VALUES (4, 4, "07.09.2013", 1);
+INSERT INTO Arrivals VALUES (5, 5, "14.09.2013", 4);
+INSERT INTO Arrivals VALUES (6, 6, "25.09.2013", 3);
+INSERT INTO Arrivals VALUES (7, 7, "26.09.2013", 11);
+INSERT INTO Arrivals VALUES (8, 8, "1.10.2013", 6);
+INSERT INTO Arrivals VALUES (9, 9, "02.10.2013", 11);
+INSERT INTO Arrivals VALUES (10, 10, "03.10.2013", 2);
+INSERT INTO Arrivals VALUES (11, 11, "04.10.2013", 4);
+INSERT INTO Arrivals VALUES (12, 12, "05.10.2013", 3);
+INSERT INTO Arrivals VALUES (13, 13, "6.10.2013", 11);
+INSERT INTO Arrivals VALUES (14, 14, "7.10.2013", 8);
+INSERT INTO Arrivals VALUES (15, 15, "8.10.2013", 11);
+
+Запросы:
+select Sellers.Name,Sellers.Surname, Sales.Quantity from sellers left join Sales on
+Sellers.ID=Sales.IDSel where Sales.Date BETWEEN '01.10.2013' AND '07.10.2013'
+
+SELECT Products.Name, Sellers.Name, Sellers.Surname,
+ROUND(Sales.Quantity/(select  sum(Quantity) as sc
+from Sales
+where Sales.Date BETWEEN '07.09.2013' AND '07.10.2013')*100)
+as Процент
+FROM Sellers
+Left JOIN Sales ON Sellers.Id = Sales.IDSel
+JOIN Products ON Sales.IDProd = Products.ID
+JOIN Arrivals ON Products.ID = Arrivals.IDProd
+where Arrivals.Date BETWEEN '01.10.2013' AND '07.10.2013'
