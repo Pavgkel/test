@@ -1,0 +1,16 @@
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\bin\Debug\net5.0\personal meeting management app.exe
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\bin\Debug\net5.0\personal meeting management app.deps.json
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\bin\Debug\net5.0\personal meeting management app.runtimeconfig.json
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\bin\Debug\net5.0\personal meeting management app.runtimeconfig.dev.json
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\bin\Debug\net5.0\personal meeting management app.dll
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\bin\Debug\net5.0\ref\personal meeting management app.dll
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\bin\Debug\net5.0\personal meeting management app.pdb
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\personal meeting management app.csproj.AssemblyReference.cache
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\personal meeting management app.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\personal meeting management app.AssemblyInfoInputs.cache
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\personal meeting management app.AssemblyInfo.cs
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\personal meeting management app.csproj.CoreCompileInputs.cache
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\personal meeting management app.dll
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\ref\personal meeting management app.dll
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\personal meeting management app.pdb
+C:\Users\pawel\Desktop\test5\Задание 3 «Разработка на .Net»\personal meeting management app\personal meeting management app\obj\Debug\net5.0\personal meeting management app.genruntimeconfig.cache
