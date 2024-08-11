@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace personal_meeting_management_app
 {
@@ -32,43 +34,28 @@ namespace personal_meeting_management_app
 2-изменить встречу
 3-удалить встречу
 4-посмотреть встречи
-5-выход");
+5-сохранить встречи
+6-выход");
 
             ok = int.TryParse(Console.ReadLine(), out Interface);
 
-            if (Interface <= 0 || Interface > 5 || !ok)
+            if (Interface <= 0 || Interface > 6 || !ok)
             {
                 Console.WriteLine("Ошибка");
                 ok = false;
             }
             return Interface;
         }
-        /*
-        static Meeting adding()
-        {
-            DateTime date1 = new DateTime(2016, 7, 20, 18, 30, 25);
-            DateTime date2 = new DateTime(2016, 7, 20, 19, 30, 25);
-
-            List<Meeting> Meeting = new List<Meeting>
-            {
-                new Meeting("Встреча", date1, date2),
-            };
-            return Meeting;
-        }
-        */
+        
         static void Main(string[] args)
         {
-            DateTime date1 = new DateTime(2016, 7, 20,18,30,25);
-            DateTime date2 = new DateTime(2016, 7, 20,19,30,25);
-
             List<Meeting> Meeting = new List<Meeting>
             {
                 
             };            
 
             int Interface;
-            double[] mas = null;
-            string name2;
+            
             do
             {
                 Interface = PrintMenu();
@@ -77,72 +64,134 @@ namespace personal_meeting_management_app
                     case 1:
                         Console.WriteLine("Введите название встречи");
                         string name = Console.ReadLine();
+                        DateTime dn;
+                        DateTime dk;
+                        do
+                        {
+                            Console.WriteLine("Введите дату и время начала встречи");
+                            dn = DateTime.Parse(Console.ReadLine());
+                            if (Meeting.FindAll(p => p._begin <= dn && p._end>= dn).Count != 0) Console.WriteLine("На это время уже назначена встреча");
+                            if(dn < DateTime.Now) Console.WriteLine("Встреча должна быть назначена на будущее!");
+                        }
+                        while (dn < DateTime.Now || Meeting.FindAll(p => p._begin <= dn && p._end >= dn).Count != 0);
 
-                        Console.WriteLine("Введите дату и время начала встречи");
-                        DateTime dn = DateTime.Parse(Console.ReadLine());
-                        Console.WriteLine("Введите дату и время конца встречи");
-                        DateTime dk = DateTime.Parse(Console.ReadLine());
+                        do
+                        {
+                            Console.WriteLine("Введите дату и время конца встречи");
+                            dk= DateTime.Parse(Console.ReadLine());
+                            if (Meeting.FindAll(p => p._begin <= dk && p._end >= dk).Count != 0) Console.WriteLine("На это время уже назначена встреча");
+                            if (dk < DateTime.Now || dk<dn) Console.WriteLine("Встреча должна быть назначена на будущее!");
+                        }
+                        while (dk < DateTime.Now ||dk<dn || Meeting.FindAll(p=>p._begin <= dk && p._end >= dk).Count != 0);
+                       
 
                         Console.WriteLine("За сколько часов напомнить до встречи");
                         int not = int.Parse(Console.ReadLine());
-                        Meeting.Add(new Meeting(name, dn, dk,not));
+                        Meeting.Add(new Meeting(name, dn, dk, not));
+                        
+                        
                         break;
                     case 2:
                         Console.WriteLine("Введите название встречи");
                         name = Console.ReadLine();
                         int interface2;
-                        do
+                        var ok = Meeting.Find(p => p._name == name);
+                        if (ok != null)
                         {
-                        Console.WriteLine(@"Что хотите изменить?
+                            do
+                            {
+                                Console.WriteLine(@"Что хотите изменить?
                         1-изменить название
                         2-изменить начало встречи
                         3-изменить конец встречи
                         4-имзенить время до уведомления
                         5-выход из меню изменения");
-                        interface2 = int.Parse(Console.ReadLine());
+                                interface2 = int.Parse(Console.ReadLine());
+                                bool ok2;
+                                switch (interface2)
+                                {
+                                    case 1:
+                                        Console.WriteLine("Переименуйте встречу");
+                                        //name2 = 
+                                        ok._name = Console.ReadLine(); ;
+                                        break;
+                                    case 2:
+                                        do
+                                        {
+                                            Console.WriteLine("Введите дату и время начала встречи");
+                                            dn = DateTime.Parse(Console.ReadLine());
+                                            ok2= Meeting.FindAll(p => p._begin <= dn && p._end >= dn).Count != 0 && !Meeting.Contains(ok);
+                                            if (ok2) Console.WriteLine("На это время уже назначена встреча");
+                                            if (dn < DateTime.Now) Console.WriteLine("Встреча должна быть назначена на будущее!");
+                                        }
+                                        while (dn< DateTime.Now || ok2);
+                                        ok._begin = dn;
+                                        break;
+                                    case 3:
+                                        do
+                                        {
+                                            Console.WriteLine("Введите дату и время конца встречи");
+                                            dk = DateTime.Parse(Console.ReadLine());
+                                            ok2 = Meeting.FindAll(p => p._begin <= dk && p._end >= dk).Count != 0 && !Meeting.Contains(ok);
+                                            if (ok2) Console.WriteLine("На это время уже назначена встреча");
+                                            if (dk < DateTime.Now || dk < ok._end) Console.WriteLine("Встреча должна быть назначена на будущее!");
+                                        }
+                                        while (dk< DateTime.Now || dk < ok._end || ok2);
+                                        ok._end = dk;
+                                        break;
+                                    case 4:
+                                        Console.WriteLine("За сколько часов напомнить до встречи");
+                                        not = int.Parse(Console.ReadLine());
+                                        ok._notification = not;
+                                        break;
+                                }
 
-                            switch (interface2)
-                            {
-                                case 1:
-                                    Console.WriteLine("Переименуйте встречу");
-                                    //name2 = 
-                                    Meeting.Find(p => p._name == name)._name= Console.ReadLine(); ;
-                                    break;
-                                case 2:
-                                    Console.WriteLine("Введите дату и время начала встречи");
-                                    dn = DateTime.Parse(Console.ReadLine());
-                                    Meeting.Find(p => p._name == name)._begin = dn;
-                                    break;
-                                case 3:
-                                    Console.WriteLine("Введите дату и время конца встречи");
-                                    dk = DateTime.Parse(Console.ReadLine());
-                                    Meeting.Find(p => p._name == name)._end = dk;
-                                    break;
-                                case 4:
-                                    Console.WriteLine("За сколько часов напомнить до встречи");
-                                    not = int.Parse(Console.ReadLine());
-                                    Meeting.Find(p => p._name == name)._notification = not;
-                                    break;
                             }
-                            
+                            while (interface2 != 5);
                         }
-                        while (interface2 != 5);
+                        else Console.WriteLine("Такой встречи не существует!");
+                        
                         break;
                     case 3:
                         Console.WriteLine("Введите название встречи");
                         int search = Meeting.FindIndex(p => p._name == Console.ReadLine());
-                        Meeting.RemoveAt(search);
+                        if (search != -1)
+                        {
+                            Meeting.RemoveAt(search);
+                            Console.WriteLine("Встреча удалена!");
+                        }
+                        else Console.WriteLine("Такой встречи не существует или список пуст");
 
                         break;
                     case 4:
-                        foreach (var meet in Meeting)
+                        Console.WriteLine("Введите дату для просмотра встреч");
+                        dn = DateTime.Parse(Console.ReadLine());
+                        var meet2=Meeting.FindAll(p => p._begin.Date == dn.Date);
+                        foreach (var meet in meet2)
                         {
                             Console.WriteLine($"Название:{ meet._name} Начало {meet._begin} Конец {meet._end}");
                         }
+                        if (meet2.Count == 0) Console.WriteLine("У вас сегодня нет встреч!");
                         break;
+                    case 5:
+                        Console.WriteLine("Введите дату для сохранения встреч");
+                        dn = DateTime.Parse(Console.ReadLine());
+                        meet2 = Meeting.FindAll(p => p._begin.Date == dn.Date);
+                        if (meet2.Count != 0)
+                        {
+                            foreach (var meet in meet2)
+                            {
+                                File.AppendAllText(@"gfg.txt",$"Название:{ meet._name} Начало {meet._begin} Конец {meet._end}\n");
+                            }
+                            Console.WriteLine("Встречи записаны в файл!");
+                        }
+                        else   Console.WriteLine("У вас сегодня нет встреч!");                      
+                      
+                        break;
+                       
                 }
             }
-            while (Interface != 5);
+            while (Interface != 6);
         }
     }
 }
